@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+    // class implements an interface
 public class UserRepo implements DataSourceCRUD<UserModel>{
 
     @Override
@@ -87,7 +88,9 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
         ResultSet rs = pstmt.executeQuery();
 
         if(rs.next() && rs.getString("password").equals(password)) {
-            return new UserModel(rs.getInt("user_id"), rs.getString("username"), rs.getString("password"));
+            return new UserModel(rs.getInt("user_id"), rs.getString("username"),
+                    rs.getString("password"), rs.getString("first_name"),
+                    rs.getString("last_name"), rs.getString("email"));
         }
         return null;
     }

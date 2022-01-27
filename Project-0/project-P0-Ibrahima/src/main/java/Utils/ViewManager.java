@@ -18,7 +18,7 @@ public class ViewManager {
     View nextView;
 
 
-  static{ viewManager = new ViewManager();}
+  //static{ viewManager = new ViewManager();}
     private ViewManager() {
         //set up starting values and references
         running = true;
@@ -35,8 +35,8 @@ public class ViewManager {
 
     public void navigate(String destination) {
         for(View view : viewList) {
-            System.out.println("111111111111111111111");
-            System.out.println(view.getViewName());
+          //  System.out.println("111111111111111111111");
+            //System.out.println("DEBUG: " + view.getViewName());
 
             if(view.getViewName().equals(destination)){
                 nextView = view;

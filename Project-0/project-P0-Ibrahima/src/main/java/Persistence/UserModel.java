@@ -1,20 +1,29 @@
 package Persistence;
 
+    // class
 public class UserModel {
 
-    // declare variables
+    // declare variables as private
     private Integer userId;
     private String username;
     private String password;
+    private String firstName;
+    private String lastName;
+    private String email;
 
     // no arg constructor UserModel()
     public UserModel() {
     }
     // parameterize constructor UserModel()
-    public UserModel(Integer userId, String username, String password) {
+    public UserModel(Integer userId, String username, String password, String firstName,
+                     String lastName, String email) {
+
         this.userId = userId;
         this.username = username;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
     }
     // Another parameterize constructor UserModel()
     public UserModel(String username, String password) {
@@ -45,4 +54,16 @@ public class UserModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getFirstName() { return firstName; }
+
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
 }

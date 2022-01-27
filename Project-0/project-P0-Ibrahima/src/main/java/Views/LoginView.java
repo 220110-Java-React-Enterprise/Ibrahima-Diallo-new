@@ -32,7 +32,7 @@ public class LoginView extends View {
         }
 
         ContextStore.setCurrentUser(user);
-        viewManager.navigate("itemList");
+        viewManager.navigate("accountList");
 
     }
 }

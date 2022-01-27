@@ -3,13 +3,7 @@
                 // Revature Training
                 //                     ***__ Project-P0 __***
 
-import Persistence.ItemModel;
-import Persistence.ItemRepo;
-import Persistence.UserModel;
-import Persistence.UserRepo;
 import Utils.ConnectionManager;
-import Utils.CustomArrayList;
-import Utils.CustomListInterface;
 import Utils.ViewManager;
 import Views.*;
 
@@ -25,9 +19,8 @@ public class Main {
         ViewManager.getViewManager().registerView(new WelcomeView());
         ViewManager.getViewManager().registerView(new RegisterView());
         ViewManager.getViewManager().registerView(new LoginView());
-        ViewManager.getViewManager().registerView(new ItemListView());
-        ViewManager.getViewManager().registerView(new CreateNewItemView());
-        ViewManager.getViewManager().registerView(new MarkCompleteView());
+        ViewManager.getViewManager().registerView(new AccountListView());
+        //ViewManager.getViewManager().registerView(new);
 
 
 

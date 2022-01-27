@@ -1,5 +1,7 @@
 package Views;
 
+import Persistence.AccountModel;
+import Persistence.AccountRepo;
 import Persistence.UserModel;
 import Persistence.UserRepo;
 import Utils.ContextStore;
@@ -25,11 +27,15 @@ public class RegisterView extends View{
 
         UserModel newUser = new UserModel(username, password);
         UserRepo repo = new UserRepo();
-        newUser.setUserId(repo.create(newUser));
+                  newUser.setUserId(repo.create(newUser));
 
         ContextStore.setCurrentUser(newUser);
 
-        viewManager.navigate("itemList");
+        AccountRepo accountRepo = new AccountRepo();
+        AccountModel accountModel = new AccountModel(0, ContextStore.getCurrentUser().getUserId(), 0.0);
+        accountRepo.create(accountModel);
+
+        viewManager.navigate("accountList");
 
     }
 }

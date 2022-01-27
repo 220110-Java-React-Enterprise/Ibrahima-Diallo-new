@@ -43,6 +43,8 @@ public class ConnectionManager {
 
         connection = DriverManager.getConnection(connectionString);
 
+       // System.out.println(connectionString); // Shows if connection works otherwise gives SQL Exception
+
         return connection;
     }
 }

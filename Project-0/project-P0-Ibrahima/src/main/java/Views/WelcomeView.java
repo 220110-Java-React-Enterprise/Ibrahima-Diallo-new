@@ -2,7 +2,7 @@ package Views;
 
 import Utils.ViewManager;
 
-public class WelcomeView extends  View {
+public class WelcomeView extends View {
 
     public WelcomeView() {
         viewName = "welcome";
@@ -11,11 +11,12 @@ public class WelcomeView extends  View {
 
     @Override
     public void renderView() {
-        System.out.println("Welcome to ToDoApp!\n" +
-                "=======================\n" +
-                "1) Register\n" +
-                "2) Login\n" +
-                "=======================\n");
+        System.out.println("Welcome to BankingApp!\n" +
+                "Do you want to register press 1) and 2) for login?\n" +
+                "==============================\n" +
+                "1) Register as a New User Account\n" +
+                "2) Login to an Existing Account\n" +
+                "==============================\n");
 
         String input = viewManager.getScanner().nextLine();
 
@@ -26,6 +27,7 @@ public class WelcomeView extends  View {
                 break;
             case "2":
                 viewManager.navigate("login");
+                System.out.println("\nWelcome! Follow the instructions bellow ");
                 break;
             default:
                 System.out.println("\nOops, try again...\n\n\n");
