@@ -26,9 +26,9 @@ public class ConnectionManager {
 
     private static Connection connect() throws IOException, SQLException {
         /*
-        jdbc:mariadb://<hostname>:<port>/<databaseName>?user=<username>&password=<password>
-        This is the string we need to use to connect to our database. We will build this string with each of the
-        variables filled out and qualified.
+                  jdbc:mariadb://<hostname>:<port>/<databaseName>?user=<username>&password=<password>
+            This is the string we need to use to connect to our database. We will build this
+            string with each of the variables filled out and qualified.
          */
 
         Properties props = new Properties();

@@ -17,6 +17,8 @@ public abstract class View {
 
         return viewName;
     }
+
         // Abstract renderView() method
     public abstract void renderView() throws SQLException, IOException;
+
 }

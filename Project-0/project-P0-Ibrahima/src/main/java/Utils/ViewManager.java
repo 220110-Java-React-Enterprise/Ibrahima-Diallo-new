@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+        // Class that control the operation
 public class ViewManager {
 
     private static ViewManager viewManager;
@@ -18,9 +19,9 @@ public class ViewManager {
     View nextView;
 
 
-  //static{ viewManager = new ViewManager();}
+        // Constructor
     private ViewManager() {
-        //set up starting values and references
+        // set up starting values and references
         running = true;
         scanner = new Scanner(System.in);
         viewList = new CustomArrayList<>();
@@ -35,8 +36,6 @@ public class ViewManager {
 
     public void navigate(String destination) {
         for(View view : viewList) {
-          //  System.out.println("111111111111111111111");
-            //System.out.println("DEBUG: " + view.getViewName());
 
             if(view.getViewName().equals(destination)){
                 nextView = view;

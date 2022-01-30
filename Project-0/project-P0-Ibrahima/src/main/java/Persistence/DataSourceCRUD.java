@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-    // class
+    // Interface
 public interface DataSourceCRUD<T> {
 
     // CRUD: Create Read, Update, Delete

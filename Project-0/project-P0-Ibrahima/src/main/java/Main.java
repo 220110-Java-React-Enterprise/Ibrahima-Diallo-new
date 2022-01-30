@@ -1,6 +1,6 @@
 
                 //  Ibrahima Diallo
-                // Revature Training
+                // Revature Training JRE
                 //                     ***__ Project-P0 __***
 
 import Utils.ConnectionManager;
@@ -11,17 +11,19 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+        // This is the main Class "Main Entry point"1
 public class Main {
+        // main method
     public static void main(String ...args) throws SQLException, IOException {
 
-        //Connection conn = ConnectionManager.getConnection();
+        /*
+               These methods are called here to display the welcome... to the user.
+        **/
 
         ViewManager.getViewManager().registerView(new WelcomeView());
         ViewManager.getViewManager().registerView(new RegisterView());
         ViewManager.getViewManager().registerView(new LoginView());
         ViewManager.getViewManager().registerView(new AccountListView());
-        //ViewManager.getViewManager().registerView(new);
-
 
 
         try {

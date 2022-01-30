@@ -13,11 +13,17 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
 
     @Override
     public Integer create(UserModel userModel) throws SQLException, IOException {
-        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        String sql = "INSERT INTO users (username, password, firstName, lastName, email) VALUES (?, ?, ?, ?, ?)";
+
         PreparedStatement pstmt = ConnectionManager.getConnection()
                 .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
         pstmt.setString(1, userModel.getUsername());
         pstmt.setString(2, userModel.getPassword());
+        pstmt.setString(3, userModel.getFirstName());
+        pstmt.setString(4, userModel.getLastName());
+        pstmt.setString(5, userModel.getEmail());
+
 
         pstmt.executeUpdate();
         ResultSet rs = pstmt.getGeneratedKeys();
@@ -33,44 +39,59 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
 
-        UserModel user = new UserModel();
+        UserModel usermodel = new UserModel();
         if(rs.next()) {
-            user.setUserId(rs.getInt("user_id"));
-            user.setUsername(rs.getString("username"));
-            user.setPassword(rs.getString("password"));
-            return user;
+
+            usermodel.setUserId(rs.getInt("user_id"));
+            usermodel.setUsername(rs.getString("username"));
+            usermodel.setPassword(rs.getString("password"));
+            usermodel.setFirstName(rs.getString("firstName"));
+            usermodel.setLastName(rs.getString("lastName"));
+            usermodel.setEmail(rs.getString("email"));
+
+            return usermodel;
+
         } else {
+
             return null;
         }
-
     }
 
-    @Override
-    public UserModel update(UserModel userModel) throws SQLException, IOException {
-        String sql = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
-        PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
-        pstmt.setString(1, userModel.getUsername());
-        pstmt.setString(2, userModel.getPassword());
-        pstmt.setInt(3, userModel.getUserId());
+        public UserModel update(UserModel userModel) throws SQLException, IOException {
 
-        pstmt.executeUpdate();
+            String sql = "UPDATE users SET username = ?, password = ?," +
+                    "firstName = ?, lastName = ?, email =? WHERE user_id = ?";
+            PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
+            pstmt.setString(1, userModel.getUsername());
+            pstmt.setString(2, userModel.getPassword());
+            pstmt.setString(3, userModel.getFirstName());
+            pstmt.setString(4, userModel.getLastName());
+            pstmt.setString(5, userModel.getEmail());
+            pstmt.setInt(6, userModel.getUserId());
 
-        String verify = "SELECT * FROM users WHERE user_id = ?";
-        PreparedStatement vstmt = ConnectionManager.getConnection().prepareStatement(verify);
-        pstmt.setInt(1, userModel.getUserId());
-        ResultSet rs = vstmt.executeQuery();
+            pstmt.executeUpdate();
 
-        if(rs.next()) {
-            UserModel verifiedUserModel = new UserModel();
-            verifiedUserModel.setUserId(rs.getInt("user_id"));
-            verifiedUserModel.setUsername(rs.getString("username"));
-            verifiedUserModel.setPassword(rs.getString("password"));
-            return verifiedUserModel;
+            String verify = "SELECT * FROM users WHERE user_id = ?";
+            PreparedStatement vstmt = ConnectionManager.getConnection().prepareStatement(verify);
+            pstmt.setInt(1, userModel.getUserId());
+            ResultSet rs = vstmt.executeQuery();
+
+            if(rs.next()) {
+                UserModel verifiedUserModel = new UserModel();
+
+                verifiedUserModel.setUserId(rs.getInt("user_id"));
+                verifiedUserModel.setUsername(rs.getString("username"));
+                verifiedUserModel.setPassword(rs.getString("password"));
+                verifiedUserModel.setFirstName(rs.getString("firstName"));
+                verifiedUserModel.setLastName(rs.getString("lastName"));
+                verifiedUserModel.setEmail(rs.getString("email"));
+
+                return verifiedUserModel;
+            }
+
+            return null;
+
         }
-
-        return null;
-
-    }
 
     @Override
     public void delete(Integer id) throws SQLException, IOException {
@@ -80,7 +101,9 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
         pstmt.executeUpdate();
 
     }
-
+        /*
+                Verification of the user information
+        **/
     public UserModel authenticate(String username, String password) throws SQLException, IOException {
         String sql = "SELECT * FROM users WHERE username = ?";
         PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
@@ -89,8 +112,8 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
 
         if(rs.next() && rs.getString("password").equals(password)) {
             return new UserModel(rs.getInt("user_id"), rs.getString("username"),
-                    rs.getString("password"), rs.getString("first_name"),
-                    rs.getString("last_name"), rs.getString("email"));
+                    rs.getString("password"), rs.getString("firstName"),
+                    rs.getString("lastName"), rs.getString("email"));
         }
         return null;
     }

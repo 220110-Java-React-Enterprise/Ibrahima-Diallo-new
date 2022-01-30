@@ -7,49 +7,100 @@ import Utils.ViewManager;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
+        // class
 public class AccountListView extends View {
 
+        // No arg constructor
     public AccountListView() {
-        viewName = "accountList";
+        viewName = "accountViewList";
         viewManager = ViewManager.getViewManager();
     }
+
     @Override
     public void renderView() throws SQLException, IOException {
-        System.out.println("Welcome! " + ContextStore.getCurrentUser().getUsername());
+
+        System.out.println("Welcome! " + ContextStore.getCurrentUser().getFirstName() + " " +
+                ContextStore.getCurrentUser().getLastName());
         System.out.println("===========================================");
 
-        System.out.println("What do want?\n " + "1) for withdraw\n " +
-                        "2) for Deposit and" + "\n3) for Quit" );
+        AccountRepo accountRepo = new AccountRepo();
+        AccountModel accountModel = accountRepo.read(ContextStore.getCurrentUser().getUserId());
+        Double balance = accountModel.getBalance();
 
+        // number format
+        NumberFormat amountFormat = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
+
+        System.out.println(amountFormat.format(balance));
+
+        System.out.println("What do you want?\n\n " + "1) for withdraw\n " +
+                        "2) for Deposit and" + "\n 3) for Quit" );
+
+        //
         String input = viewManager.getScanner().nextLine();
         switch(input) {
             case "1":
-                //viewManager.navigate("newItem");
                 withdraw();
                 break;
             case "2":
-                // deposit
+                deposit();
                 break;
             case "3":
                 viewManager.quit();
                 System.out.println("Main menu");
                 break;
             default:
-                System.out.println("\nOops, try again...\n\n\n");
+                System.out.println("\nPlease try again...\n\n\n");
                 break;
         }
     }
-    private void withdraw(){
 
-        System.out.println("How much do when to withdraw? ");
+        /*
+                The Deposit method() that will not accept negative value for operation
+        **/
+
+    private void deposit(){
+
+        System.out.println("Please input your deposit! ");
 
         try{
+
             double amount = Double.parseDouble(viewManager.getScanner().nextLine());
+
             AccountRepo accountRepo = new AccountRepo();
             AccountModel accountModel = accountRepo.read(ContextStore.getCurrentUser().getUserId());
-            accountModel.setBalance(accountModel.getBalance() - amount);
+
+            accountModel.depositAmount(amount);
+            accountRepo.update(accountModel);
+
+        }catch (NumberFormatException nfe){
+
+            System.out.println(nfe.getMessage());
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+
+        }
+
+    }
+         /*
+                The withdrawal method
+         * **/
+    private void withdraw(){
+
+        System.out.println("How much do you want to withdraw? ");
+
+        try{
+
+            double amount = Double.parseDouble(viewManager.getScanner().nextLine());
+
+
+            AccountRepo accountRepo = new AccountRepo();
+            AccountModel accountModel = accountRepo.read(ContextStore.getCurrentUser().getUserId());
+
+            accountModel.withdrawAmount(amount);
             accountRepo.update(accountModel);
 
         }catch (NumberFormatException nfe){

@@ -8,14 +8,22 @@ import Utils.ViewManager;
 import java.io.IOException;
 import java.sql.SQLException;
 
+        // Shows user how to follow the process
 public class LoginView extends View {
+
     public LoginView() {
         viewName = "login";
         viewManager = ViewManager.getViewManager();
     }
+        /*
+                The renderView which implement the Login
+        * **/
+
     @Override
     public void renderView() throws SQLException, IOException {
-        System.out.println("Uesr Login\n===============");
+
+        System.out.println("User Login\n===============");
+
         System.out.println("Enter username:");
         String username =  viewManager.getScanner().nextLine();
 
@@ -25,6 +33,7 @@ public class LoginView extends View {
         UserRepo repo = new UserRepo();
         UserModel user = repo.authenticate(username, password);
 
+
         if(user == null) {
             System.out.println("\nIncorrect credentials... \n\n\n");
             viewManager.navigate("welcome");
@@ -32,7 +41,7 @@ public class LoginView extends View {
         }
 
         ContextStore.setCurrentUser(user);
-        viewManager.navigate("accountList");
+        viewManager.navigate("accountViewList");
 
     }
 }
