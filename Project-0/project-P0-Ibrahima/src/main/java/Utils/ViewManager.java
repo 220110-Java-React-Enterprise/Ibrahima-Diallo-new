@@ -12,11 +12,11 @@ import java.util.Scanner;
         // Class that control the operation
 public class ViewManager {
 
-    private static ViewManager viewManager;
-    private boolean running;
-    private final Scanner scanner;
-    CustomArrayList<View> viewList;
-    View nextView;
+        private static ViewManager viewManager;
+        private boolean running;
+        private final Scanner scanner;
+        CustomArrayList<View> viewList;
+        View nextView;
 
 
         // Constructor

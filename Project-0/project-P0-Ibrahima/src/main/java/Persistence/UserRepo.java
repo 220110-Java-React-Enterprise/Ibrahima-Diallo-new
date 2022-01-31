@@ -12,29 +12,38 @@ import java.sql.Statement;
 public class UserRepo implements DataSourceCRUD<UserModel>{
 
     @Override
-    public Integer create(UserModel userModel) throws SQLException, IOException {
-        String sql = "INSERT INTO users (username, password, firstName, lastName, email) VALUES (?, ?, ?, ?, ?)";
+    public Integer create(UserModel userModel) /*throws SQLException, IOException */ {
 
-        PreparedStatement pstmt = ConnectionManager.getConnection()
-                .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        try {
+            String sql = "INSERT INTO users (username, password, firstName, lastName, email) VALUES (?, ?, ?, ?, ?)";
 
-        pstmt.setString(1, userModel.getUsername());
-        pstmt.setString(2, userModel.getPassword());
-        pstmt.setString(3, userModel.getFirstName());
-        pstmt.setString(4, userModel.getLastName());
-        pstmt.setString(5, userModel.getEmail());
+            PreparedStatement pstmt = ConnectionManager.getConnection()
+                    .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            pstmt.setString(1, userModel.getUsername());
+            pstmt.setString(2, userModel.getPassword());
+            pstmt.setString(3, userModel.getFirstName());
+            pstmt.setString(4, userModel.getLastName());
+            pstmt.setString(5, userModel.getEmail());
 
 
-        pstmt.executeUpdate();
-        ResultSet rs = pstmt.getGeneratedKeys();
-        rs.next();
-        return rs.getInt(1);
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            rs.next();
+            return rs.getInt(1);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
-    public UserModel read(Integer id) throws SQLException, IOException {
+    public UserModel read(Integer id) {
+
+    try{
         String sql = "SELECT * FROM users WHERE user_id = ?";
+
         PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
         pstmt.setInt(1, id);
         ResultSet rs = pstmt.executeQuery();
@@ -52,15 +61,21 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
             return usermodel;
 
         } else {
-
             return null;
         }
+
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
+        return null;
     }
 
-        public UserModel update(UserModel userModel) throws SQLException, IOException {
+        public UserModel update(UserModel userModel) {
 
+        try{
             String sql = "UPDATE users SET username = ?, password = ?," +
                     "firstName = ?, lastName = ?, email =? WHERE user_id = ?";
+
             PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
             pstmt.setString(1, userModel.getUsername());
             pstmt.setString(2, userModel.getPassword());
@@ -89,23 +104,37 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
                 return verifiedUserModel;
             }
 
+            } catch (Exception e) {
+                    e.printStackTrace();
+            }
+
             return null;
 
         }
 
     @Override
-    public void delete(Integer id) throws SQLException, IOException {
+    public void delete(Integer id) {
+
+    try{
         String sql = "DELETE FROM users WHERE user_id = ?";
+
         PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
         pstmt.setInt(1, id);
         pstmt.executeUpdate();
+
+         } catch (Exception e) {
+                 e.printStackTrace();
+         }
 
     }
         /*
                 Verification of the user information
         **/
-    public UserModel authenticate(String username, String password) throws SQLException, IOException {
+    public UserModel authenticate(String username, String password) {
+
+    try{
         String sql = "SELECT * FROM users WHERE username = ?";
+
         PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
         pstmt.setString(1, username);
         ResultSet rs = pstmt.executeQuery();
@@ -115,6 +144,10 @@ public class UserRepo implements DataSourceCRUD<UserModel>{
                     rs.getString("password"), rs.getString("firstName"),
                     rs.getString("lastName"), rs.getString("email"));
         }
-        return null;
+
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+            return null;
     }
 }

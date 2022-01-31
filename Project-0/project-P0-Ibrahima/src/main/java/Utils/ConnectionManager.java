@@ -16,22 +16,33 @@ public class ConnectionManager {
         // private constructor with no arg
     private ConnectionManager() {
     }
+
         // getConnection() that invoke the connect() method
-    public static Connection getConnection() throws SQLException, IOException {
+    public static Connection getConnection() {
+
         if(connection == null) {
-            connection = connect();  // establish the connection
+
+            try {
+                connection = connect();  // establish the connection
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         return connection;
     }
 
-    private static Connection connect() throws IOException, SQLException {
+    private static Connection connect() {
         /*
                   jdbc:mariadb://<hostname>:<port>/<databaseName>?user=<username>&password=<password>
             This is the string we need to use to connect to our database. We will build this
             string with each of the variables filled out and qualified.
          */
 
+    try {
         Properties props = new Properties();
+
         FileReader fr = new FileReader("src/main/resources/jdbc.properties");
         props.load(fr);
 
@@ -44,6 +55,10 @@ public class ConnectionManager {
         connection = DriverManager.getConnection(connectionString);
 
        // System.out.println(connectionString); // Shows if connection works otherwise gives SQL Exception
+
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
 
         return connection;
     }

@@ -19,9 +19,11 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
             /*    Override create() an account method
             * */
     @Override
-    public Integer create(AccountModel accountModel) throws SQLException, IOException {
+    public Integer create(AccountModel accountModel) {
 
+    try{
         String sql = "INSERT INTO accounts (balance, user_id) VALUES (?, ?)";
+
         PreparedStatement pstmt = ConnectionManager.getConnection()
                 .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -37,6 +39,10 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
             return rs.getInt(1);
         }
 
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+
         return null;
     }
 
@@ -44,9 +50,11 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
                 Override the read() method which get the id
         * */
     @Override
-    public AccountModel read(Integer id) throws SQLException, IOException {
+    public AccountModel read(Integer id) {
 
+    try{
         String sql = "SELECT * FROM accounts WHERE account_id = ?";
+
         PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
         pstmt.setInt(1, id);
 
@@ -60,6 +68,10 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
 
             return accModl;
         }
+
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
         return null;
     }
 
@@ -68,8 +80,9 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
         * */
 
     @Override
-    public AccountModel update(AccountModel accountModel) throws SQLException, IOException {
+    public AccountModel update(AccountModel accountModel) {
 
+    try{
         String sql = "UPDATE accounts SET balance =? WHERE account_id = ?";
         PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
         pstmt.setDouble(1, accountModel.getBalance());
@@ -77,34 +90,25 @@ public class AccountRepo implements DataSourceCRUD<AccountModel>{
 
         pstmt.executeUpdate();
 
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
         return accountModel;
     }
 
 
     @Override
-    public void delete(Integer id) throws SQLException, IOException {
+    public void delete(Integer id) {
+
+    try{
         String sql = "DELETE FROM accounts WHERE account_id = ?";
         PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
         pstmt.setInt(1, id);
         pstmt.executeUpdate();
-    }
 
-    public CustomArrayList<AccountModel> getAllItemsByUserId(Integer userId) throws SQLException, IOException {
-        String sql = "SELECT * FROM accounts WHERE user_id = ?";
-        PreparedStatement pstmt = ConnectionManager.getConnection().prepareStatement(sql);
-                          pstmt.setInt(1, userId);
-
-        ResultSet rs = pstmt.executeQuery();
-
-        List<AccountModel> accountList = new LinkedList<>();
-
-        while(rs.next()) {
-            AccountModel accModl = new AccountModel();
-                         accModl.setAccountId(rs.getInt("account_id"));
-                         accModl.setUserId(rs.getInt("user_id"));
-                         accountList.add(accModl);
+        } catch (Exception e) {
+             e.printStackTrace();
         }
-
-        return (CustomArrayList<AccountModel>) accountList;
     }
+
 }

@@ -21,14 +21,22 @@ public class AccountListView extends View {
     }
 
     @Override
-    public void renderView() throws SQLException, IOException {
+    public void renderView() {
 
         System.out.println("Welcome! " + ContextStore.getCurrentUser().getFirstName() + " " +
                 ContextStore.getCurrentUser().getLastName());
         System.out.println("===========================================");
 
         AccountRepo accountRepo = new AccountRepo();
-        AccountModel accountModel = accountRepo.read(ContextStore.getCurrentUser().getUserId());
+        AccountModel accountModel = null;
+
+        try {
+            accountModel = accountRepo.read(ContextStore.getCurrentUser().getUserId());
+
+            } catch (Exception e) {
+                    e.printStackTrace();
+            }
+
         Double balance = accountModel.getBalance();
 
         // number format
@@ -41,6 +49,7 @@ public class AccountListView extends View {
 
         //
         String input = viewManager.getScanner().nextLine();
+
         switch(input) {
             case "1":
                 withdraw();
@@ -76,13 +85,13 @@ public class AccountListView extends View {
             accountModel.depositAmount(amount);
             accountRepo.update(accountModel);
 
-        }catch (NumberFormatException nfe){
+            }catch (NumberFormatException nfe){
 
             System.out.println(nfe.getMessage());
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
 
-        }
+            } catch (Exception e) {
+                    e.printStackTrace();
+            }
 
     }
          /*
@@ -103,13 +112,13 @@ public class AccountListView extends View {
             accountModel.withdrawAmount(amount);
             accountRepo.update(accountModel);
 
-        }catch (NumberFormatException nfe){
+            }catch (NumberFormatException nfe){
 
             System.out.println(nfe.getMessage());
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
 
-        }
+            } catch (Exception e) {
+                    e.printStackTrace();
+            }
 
     }
 }

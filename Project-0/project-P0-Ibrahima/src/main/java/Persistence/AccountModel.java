@@ -68,14 +68,4 @@ public class AccountModel {
 
     }
 
-//            /*    Override the toString() method and return accountId, balance and userId
-//             * */
-//    @Override
-//    public String toString() {
-//        return "AccountModel{" +
-//                "accountId=" + accountId +
-//                ", balance=" + balance +
-//                ", userId=" + userId +
-//                '}';
-//    }
 }

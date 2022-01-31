@@ -9,12 +9,13 @@ import Views.*;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
         // This is the main Class "Main Entry point"1
 public class Main {
         // main method
-    public static void main(String ...args) throws SQLException, IOException {
+    public static void main(String ...args) {
 
         /*
                These methods are called here to display the welcome... to the user.
@@ -27,14 +28,16 @@ public class Main {
 
 
         try {
+
             Connection conn = ConnectionManager.getConnection();
+
 
             ViewManager.getViewManager().navigate("welcome");
             while(ViewManager.getViewManager().isRunning()) {
                 ViewManager.getViewManager().render();
             }
 
-        } catch (Exception e) {
+        } catch (Exception e ) {
             e.printStackTrace();
         }
 
